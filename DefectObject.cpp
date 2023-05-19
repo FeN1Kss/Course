@@ -1,20 +1,26 @@
 #pragma once 
 #include "Defect.h"
+//---------------------------------------
+//Конструктор
 Defect::Defect()
 {}
+//---------------------------------------
+//Конструктор з параметрами
 Defect::Defect(const std::string _name, const std::string _description, const int _priority, const bool _isCompleted, const int _severity) : severity(_severity)
 {}
+//---------------------------------------
+//Деструктор
 Defect::~Defect()
 {}
-void Defect::setSeverity(const int _severity)
-{
-	severity = _severity;
-}
-int Defect::getSeverity(void) const
-{
-	return severity;
-}
 
+//---------------------------------------
+//Сетер
+void Defect::setSeverity(const int _severity) { severity = _severity; }
+//---------------------------------------
+//Гетер
+int Defect::getSeverity(void) const { return severity; }
+//---------------------------------------
+//Оператор перевантаження вводу з консолі
 std::istream& operator>>(std::istream& in, Defect& obj)
 {
 	std::string Name, Description;
@@ -55,6 +61,8 @@ std::istream& operator>>(std::istream& in, Defect& obj)
 
 	return in;
 }
+//---------------------------------------
+//Вивід вмісту контейнеру
 void Defect::show(std::ostream& obj) const {
 	std::cout << "------------------------------------" << std::endl;
 	std::cout << "Name: " << name << std::endl;
@@ -64,7 +72,8 @@ void Defect::show(std::ostream& obj) const {
 	std::cout << "Severity: " << severity << std::endl;
 	std::cout << "------------------------------------" << std::endl;
 }
-
+//---------------------------------------
+//Оператор перевантаження виводу з консолі
 std::ostream& operator<<(std::ostream& out, Defect& obj)
 {
 	obj.show(out);
