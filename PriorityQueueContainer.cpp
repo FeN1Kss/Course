@@ -1,8 +1,10 @@
 #pragma once 
 #include "PriorityQueueContainer.h"
-
+//-------------------------------------------
+//Конструктор
 PriorityQueue::PriorityQueue() : head(nullptr) {}
-
+//-------------------------------------------
+//Деструктор
 PriorityQueue::~PriorityQueue() {
     Node* current = head;
     while (current != nullptr) {
@@ -12,7 +14,8 @@ PriorityQueue::~PriorityQueue() {
         delete temp;
     }
 }
-
+//-------------------------------------------
+//Додавання об'єктів до контейнеру
 void PriorityQueue::push(Task* task) {
     Node* newNode = new Node;
     newNode->task = task;
@@ -34,9 +37,10 @@ void PriorityQueue::push(Task* task) {
         current->next = newNode;
     }
 }
-
+//-------------------------------------------
+//Видалення об'єкту з контейнера
 void PriorityQueue::pop() {
-    if (head == nullptr) {
+    if (head == nullptr) { //Перевірка на порожність контейнера
         std::cout << "Priority queue is empty." << std::endl;
     }
     else {
@@ -46,9 +50,19 @@ void PriorityQueue::pop() {
         delete temp;
     }
 }
-
-void PriorityQueue::print() const {
+//-------------------------------------------
+//Перевірка на пустоту контейнера
+bool PriorityQueue::IsEmpty()
+{
     if (head == nullptr)
+        return true;
+    else
+        return false;
+}
+//-------------------------------------------
+//Вивід всього вмісту контейнера
+void PriorityQueue::print() const {
+    if (head == nullptr) //Перевірка на порожність контейнера
         std::cout << "Priority queue is empty." << std::endl;
     else
     {
@@ -62,9 +76,10 @@ void PriorityQueue::print() const {
     std::cout << std::endl;
     return;
 }
-
+//-------------------------------------------
+//Запис елементів контейнера до файлу
 void PriorityQueue::inFile(const std::string& filename) const {
-    if (head == nullptr) {
+    if (head == nullptr) { //Перевірка на порожність контейнера
         std::cout << "Priority queue is empty." << std::endl;
         return;
     }
@@ -102,49 +117,49 @@ void PriorityQueue::inFile(const std::string& filename) const {
         std::cout << "Failed to open the file: " << filename << std::endl;
     }
 }
-
+//-------------------------------------------
+//Зчитування елементів контейнера з файлу
 void PriorityQueue::fromFile(const std::string& filename) {
     std::ifstream file(filename);
-    if (file.is_open()) {
+    if (!file) {
+        std::cout << "Failed to open the file: " << filename << std::endl;
+        return;
+    }
 
-        std::string line;
-        while (std::getline(file, line)) {
-            std::stringstream is(line);
+    std::string name, assignee, description;
+    int priority, severity, taskType;
+    bool isCompleted;
 
-            std::string name, assignee, description;
-            int priority, severity, taskType;
-            bool isCompleted;
-
-
-            is >> taskType;
-
-            if (taskType == 1) {
-                if (!(is >> name >> description >> assignee >> priority >> isCompleted)) {
-                    continue;
-                }
-                Task* task = new DevelopmentTask(name, description, priority, isCompleted, assignee);
-                push(task);
-            }
-
-            else if (taskType == 2) {
-                if (!(is >> name >> description >> severity >> priority >> isCompleted)) {
-                    continue;
-                }
-                Task* task = new Defect(name, description, priority, isCompleted, severity);
-                push(task);
-            }
+    std::string line;
+    while (std::getline(file, line)) {
+        std::stringstream is(line);
+        int taskType;
+        is >> taskType;
+        switch (taskType) {
+        case 1: {
+            is >> name >> description >> assignee >> priority >> isCompleted; //Зчитування данних з файлу
+            Task* task = new DevelopmentTask(name, description, priority, isCompleted, assignee);
+            push(task);
+            break;
         }
 
-        file.close();
-        std::cout << "Data loaded from file successfully." << std::endl;
-    }
-    else {
-        std::cout << "Failed to open the file: " << filename << std::endl;
-    }
-}
+        case 2: {
+            is >> name >> description >> severity >> priority >> isCompleted; //Зчитування данних з файлу
+            Task* task = new Defect(name, description, priority, isCompleted, severity);
+            push(task);
+            break;
+        }
+        }
 
+    }
+    file.close();
+    std::cout << "Data loaded from file successfully." << std::endl;
+}
+//-------------------------------------------
+//Сортування за IsCompleted, спочатку будуть 
+//всі задачі, що не виконані, потім виконані
 void PriorityQueue::sort() {
-    if (head == nullptr) {
+    if (head == nullptr) { //Перевірка на порожність контейнера
         std::cout << "Priority queue is empty." << std::endl;
         return;
     }
@@ -173,9 +188,11 @@ void PriorityQueue::sort() {
     head = sorted;
     std::cout << "Priority queue sorted." << std::endl;
 }
+//-------------------------------------------
+//Видалення всіх елементів контейнера
 void PriorityQueue::Clear()
 {
-    if (head == nullptr) {
+    if (head == nullptr) { //Перевірка на порожність контейнера
         std::cout << "Priority queue is empty." << std::endl;
         return;
     }
@@ -184,6 +201,9 @@ void PriorityQueue::Clear()
     std::cout << "Priority queue cleaned" << std::endl;
     return;
 }
+//-------------------------------------------
+//Пошук кількості дефектів з заданим параметром,
+//а саме параметром Severity
 int PriorityQueue::countDefectsFromComponent(const int component) const {
     int count = 0;
     Node* current = head;
