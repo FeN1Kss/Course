@@ -18,6 +18,7 @@ public:
 
     void push(Task* task);
     void pop();
+    bool IsEmpty();
     void print() const;
     void inFile(const std::string& filename) const;
     void fromFile(const std::string& filename);
