@@ -1,20 +1,31 @@
 #pragma once 
 #include "DevelopmentTask.h"
-DevelopmentTask::DevelopmentTask()
+//---------------------------------------
+//Конструктор
+DevelopmentTask::DevelopmentTask() 
 {}
+//---------------------------------------
+//Конструктор з параметрами
 DevelopmentTask::DevelopmentTask(const std::string _name, const std::string _description, const int _priority, const bool _isCompleted, const std::string _assignee) : assignee(_assignee)
 {}
+//---------------------------------------
+//Деструктор
 DevelopmentTask::~DevelopmentTask()
 {}
+//---------------------------------------
+//Сетер
 void DevelopmentTask::setAssigneey(const std::string _assignee)
 {
 	assignee = _assignee;
 }
+//---------------------------------------
+//Гетер
 std::string DevelopmentTask::getAssignee(void) const
 {
 	return assignee;
 }
-
+//---------------------------------------
+//Оператор перевантаження вводу з консолі
 std::istream& operator>>(std::istream& in, DevelopmentTask& obj)
 {
 	std::string Name, Description, Assignee;
@@ -55,6 +66,8 @@ std::istream& operator>>(std::istream& in, DevelopmentTask& obj)
 
 	return in;
 }
+//---------------------------------------
+//Вивід вмісту контейнеру
 void DevelopmentTask::show(std::ostream& obj) const {
 	std::cout << "------------------------------------" << std::endl;
 	std::cout << "Name: " << name << std::endl;
@@ -64,7 +77,8 @@ void DevelopmentTask::show(std::ostream& obj) const {
 	std::cout << "IsCompleted: " << isCompleted << std::endl;
 	std::cout << "------------------------------------" << std::endl;
 }
-
+//---------------------------------------
+//Оператор перевантаження виводу з консолі
 std::ostream& operator<<(std::ostream& out, DevelopmentTask& obj)
 {
 	obj.show(out);
