@@ -1,11 +1,15 @@
 #pragma once 
 #include "MainMenu.h"
+//---------------------------------------
+//Конструктор
 MainMenu::MainMenu() : Queue(new PriorityQueue()) {}
-
+//---------------------------------------
+//Деструктор
 MainMenu::~MainMenu() {
     delete Queue;
 }
-
+//---------------------------------------
+//Запуск головного меню
 void MainMenu::Run() {
     bool exit = false;
     while (!exit) {
@@ -76,49 +80,60 @@ void MainMenu::Run() {
 
     std::cout << "Thank you!" << std::endl;
 }
-
+//-------------------------------------------
+//Cтворення нового об'єкта класу DevelopmentTask і
+//зчитування його полів з консолі
 void MainMenu::AddDevelopmentTask() {
     DevelopmentTask* task = new DevelopmentTask();
     std::cin >> *task;
     Queue->push(task);
 }
-
+//-------------------------------------------
+//Cтворення нового об'єкта класу Defect і
+//зчитування його полів з консолі
 void MainMenu::AddDefect() {
     Defect* defect = new Defect();
     std::cin >> *defect;
     Queue->push(defect);
 }
-
+//-------------------------------------------
+//Видалення останнього елемента контейнера
 void MainMenu::LastItemDelete() {
     Queue->pop();
 }
-
+//-------------------------------------------
+//Вивід вмісту контейнера в консоль
 void MainMenu::Show() {
     Queue->print();
 }
-
+//-------------------------------------------
+//Виделення всіх елементів контейнера
 void MainMenu::AllDelete() {
     Queue->Clear();
 }
-
+//-------------------------------------------
+//Збереження елементів контейнера до файлу
 void MainMenu::SaveToFile() {
     std::string filename;
     std::cout << "Enter filename: ";
     std::cin >> filename;
     Queue->inFile(filename);
 }
-
+//-------------------------------------------
+//Зчитування файлу в контейнер
 void MainMenu::LoadFromFile() {
     std::string filename;
     std::cout << "Enter filename: ";
     std::cin >> filename;
     Queue->fromFile(filename);
 }
-
+//-------------------------------------------
+//Сортування
 void MainMenu::Sort() {
     Queue->sort();
 }
-
+//-------------------------------------------
+//Пошук кількості дефектів з заданим параметром
 void MainMenu::CountDefectFromComponent() {
     int component = 0;
     std::cout << "Enter component: ";
